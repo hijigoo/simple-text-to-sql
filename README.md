@@ -79,15 +79,46 @@ lg-ensol-text2sql/
 
 ## 사용 방법
 
-### CSV를 SQL/DB로 변환
+### CSV 기반 Text-to-SQL 전체 워크플로우 실행
+
+이 시스템은 CSV 파일을 시작점으로 하여 완전한 Text-to-SQL 파이프라인을 실행합니다:
+
+1. **CSV → SQL/DB 변환**: CSV 파일을 SQL 스크립트와 SQLite 데이터베이스로 변환
+2. **스키마 추출**: 생성된 데이터베이스에서 테이블 구조 정보 추출
+3. **자연어 → SQL 변환**: 사용자 질문을 SQL 쿼리로 변환
+4. **쿼리 실행**: 생성된 SQL을 데이터베이스에서 실행
+5. **자연어 응답 생성**: 쿼리 결과를 바탕으로 사용자 친화적인 응답 생성
+
+#### 기본 사용법
 
 ```bash
-# 기본 설정으로 products_test_data.csv 변환
+# 전체 워크플로우 실행 (기본 products_test_data.csv 사용)
 python main.py
 
-# 다른 CSV 파일 지정
+# 사용자 지정 CSV 파일로 워크플로우 실행
 python main.py --csv ./path/to/your_data.csv
+
+# 특정 데이터베이스 파일 경로 지정
+python main.py --csv ./data/my_data.csv --db ./data/my_database.db
 ```
+
+#### 실행 과정
+
+1. **데이터 변환 단계**:
+   - CSV 파일 분석 및 데이터 타입 자동 감지
+   - SQL 스크립트 파일(.sql) 생성
+   - SQLite 데이터베이스 파일(.db) 생성
+
+2. **스키마 분석 단계**:
+   - 네이티브 SQLite 방식으로 스키마 추출
+   - LangChain 방식으로 스키마 추출 (선택적)
+   - 테이블 구조, 컬럼 정보, 데이터 타입 파악
+
+3. **대화형 질의 단계** (향후 확장 가능):
+   - 자연어 질문 입력
+   - Amazon Bedrock을 통한 SQL 쿼리 생성
+   - 쿼리 실행 및 결과 조회
+   - 자연어 응답 생성
 
 ### 직접 모듈 사용
 
