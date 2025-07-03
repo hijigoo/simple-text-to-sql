@@ -1,4 +1,4 @@
-# LG ENSOL Text-to-SQL
+# Simple Text-to-SQL
 
 자연어 질문을 SQL 쿼리로 변환하는 시스템으로, Amazon Bedrock의 언어 모델을 활용하여 데이터베이스 질의를 자동화합니다. 이 시스템은 SQLite 데이터베이스 스키마 정보를 추출하고, 자연어 질문을 SQL로 변환한 후, 결과를 다시 자연어로 응답합니다.
 
