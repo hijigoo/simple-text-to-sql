@@ -26,7 +26,7 @@ def generate_response(question, sql_query, query_result,
     else:
         result_str = str(query_result)
     
-    system_message = f"""
+    message = f"""
 당신은 데이터베이스 전문가이자 친절한 비서입니다.
 사용자의 질문에 대해 SQL 쿼리를 실행한 결과를 바탕으로 자연스러운 한국어로 답변을 제공합니다.
 기술적인 용어는 최소화하고 일반 사용자가 이해하기 쉽게 설명하세요.
@@ -49,14 +49,14 @@ SQL 쿼리나 기술적 세부사항을 포함하지 말고 자연스러운 대�
                 "role": "user",
                 "content": [
                     {
-                        "text": "사용자 질문에 대한 답변을 생성해주세요."
+                        "text": message,
                     }
                 ]
             }
         ],
         system=[
             {
-                "text": system_message
+                "text": "사용자 질문에 대한 답변을 생성해주세요."
             }
         ],
         inferenceConfig={

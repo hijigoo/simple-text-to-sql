@@ -6,7 +6,7 @@ def generate_sql(question, table_info, dialect,
                  region_name='ap-northeast-2'):
     bedrock = boto3.client('bedrock-runtime', region_name=region_name)
     
-    system_message = f"""
+    message = f"""
 
 당신은 {dialect} 전문가입니다.
 회사의 데이터베이스에 대한 질문을 하는 사용자와 상호 작용하고 있습니다.
@@ -36,14 +36,14 @@ SQL Query:
                 "role": "user",
                 "content": [
                     {
-                        "text": question
+                        "text": message
                     }
                 ]
             }
         ],
         system=[
             {
-                "text": system_message
+                "text": "사용자 질문에 대한 답변을 생성해주세요."
             }
         ],
         inferenceConfig={
