@@ -1,4 +1,4 @@
-product_id,product_name,category,price,stock_quantity,brand,release_date,rating
+프로덕트,프로덕트네임,category,price,stock_quantity,brand,release_date,rating
 1,iPhone 15 Pro,전자제품,1200000,25,Apple,2023-09-15,4.8
 2,갤럭시 S24,전자제품,1100000,30,Samsung,2024-01-17,4.7
 3,나이키 에어맥스,의류,150000,50,Nike,2023-03-10,4.5

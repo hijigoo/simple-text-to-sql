@@ -7,6 +7,8 @@ import os
 import csv
 import sqlite3
 import argparse
+import pandas as pd
+from sqlalchemy import create_engine
 
 
 def csv_to_sql_file(csv_file, sql_file):
@@ -91,7 +93,7 @@ def csv_to_sql_file(csv_file, sql_file):
 
 def csv_to_db_file(csv_file, db_file):
     """
-    Convert a CSV file to SQLite database file.
+    Convert a CSV file to SQLite database file using pandas and to_sql.
     
     Args:
         csv_file (str): Path to the CSV file
@@ -101,60 +103,10 @@ def csv_to_db_file(csv_file, db_file):
         bool: True if successful, False otherwise
     """
     try:
-        # Connect to SQLite database (will create it if it doesn't exist)
-        conn = sqlite3.connect(db_file)
-        cursor = conn.cursor()
-        
-        with open(csv_file, 'r', encoding='utf-8') as file:
-            csv_reader = csv.reader(file)
-            headers = next(csv_reader)
-            
-            # Create table
-            table_name = os.path.splitext(os.path.basename(csv_file))[0]
-            
-            # Determine column types
-            first_row = next(csv_reader)
-            column_types = []
-            
-            for value in first_row:
-                if value.isdigit():
-                    column_types.append("INTEGER")
-                elif value.replace(".", "", 1).isdigit():
-                    column_types.append("REAL")
-                else:
-                    # Don't try to parse as date, just use TEXT for non-numeric values
-                    column_types.append("TEXT")
-            
-            # Create table SQL
-            create_table_sql = f"CREATE TABLE IF NOT EXISTS {table_name} (\n"
-            for i, header in enumerate(headers):
-                create_table_sql += f"    {header} {column_types[i]}"
-                if header == headers[0]:  # Assume first column is the primary key
-                    create_table_sql += " PRIMARY KEY"
-                
-                if i < len(headers) - 1:
-                    create_table_sql += ",\n"
-                else:
-                    create_table_sql += "\n"
-            
-            create_table_sql += ");"
-            
-            cursor.execute(create_table_sql)
-            
-            # Reset file pointer and skip headers
-            file.seek(0)
-            next(csv_reader)
-            
-            # Insert data
-            placeholders = ", ".join(["?" for _ in headers])
-            insert_sql = f"INSERT INTO {table_name} ({', '.join(headers)}) VALUES ({placeholders})"
-            
-            rows = list(csv_reader)
-            cursor.executemany(insert_sql, rows)
-            
-            # Commit changes and close the connection
-            conn.commit()
-            conn.close()
+        df = pd.read_csv(csv_file)
+        table_name = os.path.splitext(os.path.basename(csv_file))[0]
+        engine = create_engine(f'sqlite:///{db_file}')
+        df.to_sql(table_name, engine, if_exists='replace', index=False)
         
         print(f"- SQLite database created successfully: {db_file}")
         return True

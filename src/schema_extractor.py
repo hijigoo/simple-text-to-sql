@@ -104,7 +104,7 @@ def get_schema_langchain(db_path: str) -> Dict[str, Any]:
     logger.info(f"Connecting to database with URI: {db_uri}")
     
     # Set sample_rows_in_table_info to 0 to avoid type conversion errors
-    db = SQLDatabase.from_uri(db_uri, sample_rows_in_table_info=5)
+    db = SQLDatabase.from_uri(db_uri, sample_rows_in_table_info=2)
     dialect = db.dialect
     table_info = db.table_info
     

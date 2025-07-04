@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS products_test_data (
-    product_id INTEGER PRIMARY KEY,
-    product_name TEXT,
+    프로덕트 INTEGER PRIMARY KEY,
+    프로덕트네임 TEXT,
     category TEXT,
     price INTEGER,
     stock_quantity INTEGER,
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS products_test_data (
     rating REAL
 );
 
-INSERT INTO products_test_data (product_id, product_name, category, price, stock_quantity, brand, release_date, rating) VALUES
+INSERT INTO products_test_data (프로덕트, 프로덕트네임, category, price, stock_quantity, brand, release_date, rating) VALUES
 (1, 'iPhone 15 Pro', '전자제품', 1200000, 25, 'Apple', '2023-09-15', 4.8),
 (2, '갤럭시 S24', '전자제품', 1100000, 30, 'Samsung', '2024-01-17', 4.7),
 (3, '나이키 에어맥스', '의류', 150000, 50, 'Nike', '2023-03-10', 4.5),
